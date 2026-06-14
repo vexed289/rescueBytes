@@ -14,10 +14,7 @@ st.set_page_config(
 )
 #init tabs
 upload, pantry, recipes = st.tabs(["Upload", "Pantry", "Recipes"])
-APIKEY = ""
-
-with open("API_KEY.txt", 'r') as ak:
-    APIKEY=ak.readline()
+APIKEY = st.secrets.get("API_KEY", "")
 
 
 #init pantry
