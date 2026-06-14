@@ -1,0 +1,17 @@
+[
+    {
+        "Item": "Milk",
+        "Expiry": "2026-06-19",
+        "Days Left": 7.0
+    },
+    {
+        "Item": "Bread",
+        "Expiry": "2026-06-18",
+        "Days Left": 6.0
+    },
+    {
+        "Item": "Eggs",
+        "Expiry": "2026-07-03",
+        "Days Left": 21.0
+    }
+]
