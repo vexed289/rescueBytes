@@ -160,20 +160,21 @@ with upload:
         if camera:
             extract_image(camera)
 with pantry:
-    if len(st.session_state.pantry["Item"]) > 0:
+    empty = len(st.session_state.pantry["Item"]) == 0
+    if not empty:
         st.text("Double click on boxes to edit.")
-    st.session_state.pantry = st.data_editor(st.session_state.pantry)
-    expiring = st.session_state.pantry[st.session_state.pantry["Days Left"] < 3]
-    clear = st.button("Clear pantry")
-    if clear:
-        st.session_state.pantry = pd.DataFrame({"Item": [], "Expiry": [], "Days Left": []})
-        with open("saved.json", 'w') as save:
-            save.write('')
-    if len(expiring):
-        sep = '\n'.join(expiring['Item'].astype(str))
-        st.warning(f"The following items will expire in under 3 days:\n{sep}")
-    elif len(st.session_state.pantry["Item"]) > 0:
-        st.info("No items expiring in next 3 days.")
+        st.session_state.pantry = st.data_editor(st.session_state.pantry)
+        expiring = st.session_state.pantry[st.session_state.pantry["Days Left"] < 3]
+        clear = st.button("Clear pantry")
+        if clear:
+            st.session_state.pantry = pd.DataFrame({"Item": [], "Expiry": [], "Days Left": []})
+            with open("saved.json", 'w') as save:
+                save.write('')
+        if len(expiring):
+            sep = '\n'.join(expiring['Item'].astype(str))
+            st.warning(f"The following items will expire in under 3 days:\n{sep}")
+        elif not empty:
+            st.info("No items expiring in next 3 days.")
     else:
         st.info("Pantry is empty - go to upload to add more items.")
 with recipes:
