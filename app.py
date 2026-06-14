@@ -75,13 +75,13 @@ def getExpiry(items):
     )
     content = response["message"]["content"].strip()
     estimate = json.loads(content)
-
     return {str(k): int(v) for k, v in estimate.items()}
 
 def add_to_pantry(items):
         expiries = getExpiry(items)
         new_rows = []
-
+        if not expiries:
+            return -1
         for item, exp in expiries.items():
             days=(exp if exp else 7)
             expiry = date.today()+timedelta(days=int(days))
@@ -90,6 +90,7 @@ def add_to_pantry(items):
             st.session_state.pantry = pd.concat([st.session_state.pantry, pd.DataFrame(new_rows)], ignore_index=True)
         with open("saved.json", "w") as save:
             json.dump(st.session_state.pantry.to_dict(orient="records"), save, indent=4, default=str)
+        return 0
 
 def extract_image(img):
     image = Image.open(img)
@@ -101,8 +102,11 @@ def extract_image(img):
     items = text.splitlines()
     if submit:
         with st.spinner("Adding items...", show_time=True):
-            add_to_pantry(items)
-            st.success("Items added successfully.")
+            status = add_to_pantry(items)
+            if status == -1:
+                st.warning("No items recognised.")
+            else:
+                st.success("Items added successfully.")
 
 def get_recipe_suggestions(ingredients,number=10):
     if not ingredients:
@@ -187,11 +191,11 @@ with recipes:
 
         st.write(", ".join(ingredients))
         number = st.text_input("", placeholder="Number of recipes (Default = 10)")
-        #time = st.slider("Recipe cooking time", min_value=5, max_value=180)
+        time = st.slider("Recipe cooking time", min_value=5, max_value=180)
 
-        #vegetarian = st.checkbox("Vegetarian")
-        #vegan = st.checkbox("Vegan")
-        #halal = st.checkbox("Halal")
+        vegetarian = st.checkbox("Vegetarian")
+        vegan = st.checkbox("Vegan")
+        halal = st.checkbox("Halal")
 
         if st.button("Find Recipes"):
             
