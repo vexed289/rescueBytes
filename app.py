@@ -160,7 +160,8 @@ with upload:
         if camera:
             extract_image(camera)
 with pantry:
-    st.text("Double click on boxes to edit.")
+    if len(st.session_state.pantry["Item"]) > 0:
+        st.text("Double click on boxes to edit.")
     st.session_state.pantry = st.data_editor(st.session_state.pantry)
     expiring = st.session_state.pantry[st.session_state.pantry["Days Left"] < 3]
     clear = st.button("Clear pantry")
