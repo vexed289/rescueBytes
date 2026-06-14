@@ -7,10 +7,6 @@ from PIL import Image
 import pytesseract
 import requests
 
-
-
-
-
 #config
 st.title("rescueBytes")
 st.set_page_config(

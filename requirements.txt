@@ -1,0 +1,6 @@
+streamlit
+pandas
+ollama
+Pillow
+pytesseract
+requests
