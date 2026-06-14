@@ -120,7 +120,7 @@ def get_recipe_suggestions(ingredients,number=10):
                 "number": number,
                 "ranking": 2,
                 "ignorePantry": False,
-                "SPOONACULAR_API_KEY": SPOONACULAR_API_KEY,
+                "apiKey": SPOONACULAR_API_KEY,
             },
             timeout=20,
         )
