@@ -8,14 +8,23 @@ import pytesseract
 import requests
 
 #config
+st.set_page_config(page_title="rescueBytes")
 st.title("rescueBytes")
-st.set_page_config(
-        page_title="rescueBytes"
+
+#secrets
+SPOONACULAR_API_KEY = st.secrets.get("SPOONACULAR_API_KEY", "")
+OLLAMA_API_KEY = st.secrets.get("OLLAMA_API_KEY", "")
+
+#ollama init
+client = ollama.Client(
+    host="https://ollama.com",
+    headers={
+        "Authorization": f"Bearer {OLLAMA_API_KEY}"
+    }
 )
+
 #init tabs
 upload, pantry, recipes = st.tabs(["Upload", "Pantry", "Recipes"])
-APIKEY = st.secrets.get("API_KEY", "")
-
 
 #init pantry
 if "pantry" not in st.session_state:
@@ -57,7 +66,7 @@ def getExpiry(items):
         {json.dumps(items)}
     """
 
-    response = ollama.chat(
+    response = client.chat(
         model="gpt-oss:120b-cloud",
         messages=[{
             "role": "user",
@@ -107,7 +116,7 @@ def get_recipe_suggestions(ingredients,number=10):
                 "number": number,
                 "ranking": 2,
                 "ignorePantry": False,
-                "apiKey": APIKEY,
+                "SPOONACULAR_API_KEY": SPOONACULAR_API_KEY,
             },
             timeout=20,
         )
