@@ -176,7 +176,7 @@ with pantry:
         elif not empty:
             st.info("No items expiring in next 3 days.")
     else:
-        st.info("Pantry is empty - go to upload to add more items.")
+        st.info("Pantry is empty - go to upload to add some items.")
 with recipes:
 
     if len(st.session_state.pantry):
