@@ -87,7 +87,8 @@ def add_to_pantry(items):
             expiry = date.today()+timedelta(days=int(days))
             new_rows.append({"Item": item, "Expiry": expiry, "Days Left": days})
         if new_rows:
-            st.session_state.pantry = pd.concat([st.session_state.pantry, pd.DataFrame(new_rows)], ignore_index=True).drop_duplicates()
+            st.session_state.pantry = pd.concat([st.session_state.pantry, pd.DataFrame(new_rows)], ignore_index=True)
+            st.session_state.pantry.drop_duplicates()
         with open("saved.json", "w") as save:
             json.dump(st.session_state.pantry.to_dict(orient="records"), save, indent=4, default=str)
         return 0
