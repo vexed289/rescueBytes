@@ -202,8 +202,11 @@ with recipes:
             with st.spinner("Searching recipes...", show_time=True):
                 try:
                     number = int(number)
+                    if number >= 100: raise ValueError
                 except Exception:
+                    st.warning(f"\'{number}\' is not a valid number of recipes. Setting to 10.")
                     number=10
+
                 recipes = (get_recipe_suggestions(ingredients, number=number))
 
             if recipes:
