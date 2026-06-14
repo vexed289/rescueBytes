@@ -104,7 +104,7 @@ def extract_image(img):
         with st.spinner("Adding items...", show_time=True):
             status = add_to_pantry(items)
             if status == -1:
-                st.warning("No items recognised.")
+                st.warning("No valid food items recognised.")
             else:
                 st.success("Items added successfully.")
 
